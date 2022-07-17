@@ -1,0 +1,4 @@
+[submodule "btx-engine"]
+	path = btx-engine
+	url = https://github.com/Admer456/btx-engine.git
+	branch = master
