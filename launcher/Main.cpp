@@ -2,8 +2,6 @@
 #include "Precompiled.hpp"
 #include <iostream>
 
-using namespace std::string_view_literals;
-
 int main( int argc, char** argv )
 {
 	adm::Library engineLibrary = adm::Library( "BtxEngine" );
