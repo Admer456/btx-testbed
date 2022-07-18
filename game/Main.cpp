@@ -1,9 +1,9 @@
 
 #include "Precompiled.hpp"
-#include "client/ClientGame.hpp"
-#include "server/ServerGame.hpp"
 
 // The CVar system needs this for auto-registration
+// In a client-server sorta game, you'd likely have two
+// different CVar lists
 namespace detail
 {
 	CVarList GameCVarList = CVarList();
@@ -23,15 +23,23 @@ public:
 		ModelManager = api.modelManager;
 		Network = api.network;
 		Physics = api.physics;
+		PluginSystem = api.pluginSystem;
 
-		clientGame.Init();
-		serverGame.Init();
-	
+		Audio = api.audio;
+		Input = api.input;
+		Renderer = api.renderer;
+
+		// Initialise in-game systems here
+		Console->Print( "Application::Init: Game initialised" );
+
 		return true;
 	}
 
 	void Shutdown() override
 	{
+		// Shut down in-game systems here
+		Console->Print( "Application::Shutdown: Shutting down..." );
+
 		Core = nullptr;
 		Animation = nullptr;
 		Collision = nullptr;
@@ -41,25 +49,22 @@ public:
 		ModelManager = nullptr;
 		Network = nullptr;
 		Physics = nullptr;
+		PluginSystem = nullptr;
 
-		clientGame.Shutdown();
-		serverGame.Shutdown();
+		Audio = nullptr;
+		Input = nullptr;
+		Renderer = nullptr;
 	}
 
 	void Update() override
 	{
-		clientGame.Update();
-		serverGame.Update();
+		// Update game systems here
 	}
 
 	const char* GetPluginName() const override
 	{
 		return "BTX Test Game";
 	}
-
-private:
-	ClientGame clientGame;
-	ServerGame serverGame;
 };
 
 ADM_API PluginRegistry* GetPluginRegistry()

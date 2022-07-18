@@ -5,7 +5,7 @@
 
 inline EngineAPI* Engine = nullptr;
 
-// Copy pasted from gameLibraryImports as a convenience layer, less typing
+// Copy pasted from EngineAPI as a convenience layer, less typing
 // 
 // Shared stuff
 // Both the server & client game use these
@@ -18,6 +18,7 @@ inline IMaterialManager* MaterialManager = nullptr; // textures, surface propert
 inline IModelManager* ModelManager = nullptr;       // model mesh data, metadata
 inline INetwork* Network = nullptr;                 // client-server relations, packets...
 inline IPhysics* Physics = nullptr;                 // dynamics, joints, ragdolls...
+inline IPluginSystem* PluginSystem = nullptr;       // plugin libraries
 
 // Client-specific stuff
 // The serverside should never use these

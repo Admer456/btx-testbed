@@ -2,13 +2,6 @@
 ## game/*
 set( GAME_SOURCES 
     ${BTX_COMMON_SOURCES}
-
-    client/ClientGame.cpp
-    client/ClientGame.hpp
-
-    server/ServerGame.cpp
-    server/ServerGame.hpp
-
     Main.cpp
     Precompiled.hpp )
 
