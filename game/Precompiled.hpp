@@ -3,7 +3,7 @@
 
 #include "common/Precompiled.hpp"
 
-inline gameLibraryImports* Engine = nullptr;
+inline EngineAPI* Engine = nullptr;
 
 // Copy pasted from gameLibraryImports as a convenience layer, less typing
 // 

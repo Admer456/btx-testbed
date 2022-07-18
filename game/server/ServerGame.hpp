@@ -1,11 +1,10 @@
 
 #pragma once
 
-class ServerGame final : public IGame
+class ServerGame final
 {
 public:
-	bool Init() override;
-	void Shutdown() override;
-
-	void Update() override;
+	bool Init();
+	void Shutdown();
+	void Update();
 };

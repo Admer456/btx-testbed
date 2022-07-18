@@ -3,54 +3,69 @@
 #include "client/ClientGame.hpp"
 #include "server/ServerGame.hpp"
 
-#include <iostream>
-
 // The CVar system needs this for auto-registration
 namespace detail
 {
 	CVarList GameCVarList = CVarList();
 }
 
-static gameLibraryExports GameExports;
-static ClientGame GClient;
-static ServerGame GServer;
-
-// Extern "C" prevents name mangling
-extern "C" ADM_EXPORT gameLibraryExports* ExchangeGameInterface( gameLibraryImports* engineLibraries )
+class Application : public IApplication
 {
-	if ( nullptr == engineLibraries )
+public:
+	bool Init( const EngineAPI& api ) override
 	{
-		std::cout << "Game::ExchangeGameInterface: engineLibraries null" << std::endl;
-		return nullptr;
-	}
+		Core = api.core;
+		Animation = api.animation;
+		Collision = api.collision;
+		Console = api.console;
+		FileSystem = api.fileSystem;
+		MaterialManager = api.materialManager;
+		ModelManager = api.modelManager;
+		Network = api.network;
+		Physics = api.physics;
 
-	if ( engineLibraries->engineVersion != EngineVersion )
-	{
-		std::cout << "Game::ExchangeGameInterface: engineVersion doesn't match" << std::endl;
-		return nullptr;
-	}
-
-	// Import stuff from the engine
-	Engine = engineLibraries;
+		clientGame.Init();
+		serverGame.Init();
 	
-	// Less typing for game programmers in the end
-	Core = Engine->core;
-	Animation = Engine->animation;
-	Collision = Engine->collision;
-	Console = Engine->console;
-	FileSystem = Engine->fileSystem;
-	MaterialManager = Engine->materialManager;
-	ModelManager = Engine->modelManager;
-	Network = Engine->network;
-	Physics = Engine->physics;
+		return true;
+	}
 
-	Audio = Engine->audio;
-	Input = Engine->input;
-	Renderer = Engine->renderer;
+	void Shutdown() override
+	{
+		Core = nullptr;
+		Animation = nullptr;
+		Collision = nullptr;
+		Console = nullptr;
+		FileSystem = nullptr;
+		MaterialManager = nullptr;
+		ModelManager = nullptr;
+		Network = nullptr;
+		Physics = nullptr;
 
-	// Export stuff to the engine
-	GameExports.client = &GClient;
-	GameExports.server = &GServer;
+		clientGame.Shutdown();
+		serverGame.Shutdown();
+	}
 
-	return &GameExports;
+	void Update() override
+	{
+		clientGame.Update();
+		serverGame.Update();
+	}
+
+	const char* GetPluginName() const override
+	{
+		return "BTX Test Game";
+	}
+
+private:
+	ClientGame clientGame;
+	ServerGame serverGame;
+};
+
+ADM_API PluginRegistry* GetPluginRegistry()
+{
+	static auto& registry = PluginRegistry( EngineVersion )
+		.Register<Application>();
+
+	return &registry;
 }
