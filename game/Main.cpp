@@ -1,13 +1,7 @@
 
 #include "Precompiled.hpp"
 
-// The CVar system needs this for auto-registration
-// In a client-server sorta game, you'd likely have two
-// different CVar lists
-namespace detail
-{
-	CVarList GameCVarList = CVarList();
-}
+CVar testCvar( "test_cvar", "0", CVarFlags::ReadOnly, "Some test CVar" );
 
 class Application : public IApplication
 {

@@ -26,9 +26,4 @@ inline IAudio* Audio = nullptr;           // sound sources, music, filters, reve
 inline IInput* Input = nullptr;           // keyboard & mouse input
 inline IRenderSystem* Renderer = nullptr; // rendering of 3D models, 2D surfs, text etc.
 
-namespace detail
-{
-	extern CVarList GameCVarList;
-}
-
-using CVar = CVarTemplate<detail::GameCVarList, Console>;
+using CVar = CVarTemplate<Console>;
