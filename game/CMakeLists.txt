@@ -38,8 +38,8 @@ endif()
 
 ## Output here
 install( TARGETS GameLibrary
-    RUNTIME DESTINATION ${BTX_BIN_DIRECTORY}/game
-    LIBRARY DESTINATION ${BTX_BIN_DIRECTORY}/game )
+    RUNTIME DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/GameLibrary
+    LIBRARY DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/GameLibrary )
 
 if ( WIN32 )
     ## Place PDBs on Windows

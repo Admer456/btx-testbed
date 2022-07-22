@@ -23,6 +23,8 @@ public:
 		Input = api.input;
 		Renderer = api.renderer;
 
+		CVar::RegisterAll();
+
 		// Initialise in-game systems here
 		Console->Print( "Application::Init: Game initialised" );
 
@@ -33,6 +35,8 @@ public:
 	{
 		// Shut down in-game systems here
 		Console->Print( "Application::Shutdown: Shutting down..." );
+
+		CVar::UnregisterAll();
 
 		Core = nullptr;
 		Animation = nullptr;
@@ -61,10 +65,10 @@ public:
 	}
 };
 
+static PluginRegistry Registry( EngineVersion );
+
 ADM_API PluginRegistry* GetPluginRegistry()
 {
-	static auto& registry = PluginRegistry( EngineVersion )
-		.Register<Application>();
-
-	return &registry;
+	Registry.Register<Application>();
+	return &Registry;
 }
