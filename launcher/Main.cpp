@@ -37,5 +37,8 @@ int main( int argc, char** argv )
 	}
 
 	engine->Shutdown( "normal shutdown" );
+
+	std::cout << "Have a nice day." << std::endl;
+
 	return 0;
 }
