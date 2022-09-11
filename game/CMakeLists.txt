@@ -46,3 +46,13 @@ if ( WIN32 )
     install( FILES $<TARGET_PDB_FILE:GameLibrary> 
         DESTINATION ${BTX_BIN_DIRECTORY}/game OPTIONAL )
 endif()
+
+## Copy the configs
+install( FILES ${BTX_TEST_GAME_ROOT}/assets/engineConfig.json
+    DESTINATION ${BTX_BIN_DIRECTORY} )
+
+install( FILES ${BTX_TEST_GAME_ROOT}/assets/gameConfig.json
+    DESTINATION ${BTX_BIN_DIRECTORY}/game )
+
+install( FILES ${BTX_TEST_GAME_ROOT}/assets/plugins.json
+    DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/GameLibrary )
