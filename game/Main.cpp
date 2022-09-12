@@ -9,14 +9,10 @@ public:
 	bool Init( const EngineAPI& api ) override
 	{
 		Core = api.core;
-		Animation = api.animation;
-		Collision = api.collision;
 		Console = api.console;
 		FileSystem = api.fileSystem;
 		MaterialManager = api.materialManager;
 		ModelManager = api.modelManager;
-		Network = api.network;
-		Physics = api.physics;
 		PluginSystem = api.pluginSystem;
 
 		Audio = api.audio;
@@ -39,14 +35,10 @@ public:
 		CVar::UnregisterAll();
 
 		Core = nullptr;
-		Animation = nullptr;
-		Collision = nullptr;
 		Console = nullptr;
 		FileSystem = nullptr;
 		MaterialManager = nullptr;
 		ModelManager = nullptr;
-		Network = nullptr;
-		Physics = nullptr;
 		PluginSystem = nullptr;
 
 		Audio = nullptr;
