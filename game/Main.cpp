@@ -21,10 +21,27 @@ public:
 
 		CVar::RegisterAll();
 
-		// Initialise in-game systems here
 		Console->Print( "Application::Init: Game initialised" );
-
 		return true;
+	}
+
+	// Initialise in-game systems here
+	void Start() override
+	{
+		adm::DateTime date = adm::DateTime::Now();
+		Console->Print( adm::format( "The date is: %i/%i/%i %i:%i:%i",
+			date.GetYear(), date.GetMonth(), date.GetDay(),
+			date.GetHour(), date.GetMinute(), date.GetSecond() ) );
+
+		Console->Print( "Available video modes:" );
+		auto videoModes = Core->GetWindows()[0]->GetAvailableVideoModes();
+		for ( const auto& videoMode : videoModes )
+		{
+			if ( videoMode.refreshRate >= 60 )
+			{
+				Console->Print( adm::format( "  * %ix%i, %i Hz", videoMode.width, videoMode.height, videoMode.refreshRate ) );
+			}
+		}
 	}
 
 	void Shutdown() override
