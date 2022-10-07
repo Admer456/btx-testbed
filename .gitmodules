@@ -2,3 +2,9 @@
 	path = btx-engine
 	url = https://github.com/Admer456/btx-engine.git
 	branch = master
+	shallow = 1
+[submodule "btx-common"]
+	path = btx-common
+	url = https://github.com/Admer456/btx-common.git
+	branch = master
+	shallow = 1
