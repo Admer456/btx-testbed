@@ -1,6 +1,5 @@
 
 set( BTX_LAUNCHER_SOURCES
-        ${BTX_COMMON_SOURCES}
         Main.cpp
         Precompiled.hpp )
 
@@ -24,7 +23,7 @@ target_include_directories( EngineLauncher PRIVATE
 
 ## Link against SDL2 libs and others
 target_link_libraries( EngineLauncher 
-        AdmUtils )
+        AdmUtils BtxCommon )
 
 ## Precompiled headers
 target_precompile_headers( EngineLauncher PRIVATE 

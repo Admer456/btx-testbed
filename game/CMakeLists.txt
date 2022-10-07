@@ -1,7 +1,6 @@
 
 ## game/*
 set( GAME_SOURCES 
-    ${BTX_COMMON_SOURCES}
     Main.cpp
     Precompiled.hpp )
 
@@ -26,7 +25,8 @@ target_include_directories( GameLibrary PRIVATE
 ## Link against adm-utils and whatever
 ## else you may need here
 target_link_libraries( GameLibrary
-    AdmUtils )
+    AdmUtils
+    BtxCommon )
 
 ## Precompiled headers
 target_precompile_headers( GameLibrary PRIVATE 
