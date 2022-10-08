@@ -21,6 +21,7 @@ set_target_properties( ElegyRhi PROPERTIES FOLDER "Libs" )
 
 ## Renderer
 add_subdirectory( btx-renderer )
+set_target_properties( BtxRenderer PROPERTIES FOLDER "Plugins" )
 
 ## Engine
 add_subdirectory( btx-engine )
