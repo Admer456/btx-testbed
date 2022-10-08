@@ -19,9 +19,24 @@ set_target_properties( BtxCommon PROPERTIES FOLDER "Engine" )
 set_target_properties( AdmUtils PROPERTIES FOLDER "Libs" )
 set_target_properties( ElegyRhi PROPERTIES FOLDER "Libs" )
 
+## Renderer
+add_subdirectory( btx-renderer )
+
 ## Engine
 add_subdirectory( btx-engine )
 
 ## Game and launcher
 add_subdirectory( game )
 add_subdirectory( launcher )
+
+install( TARGETS BtxRenderer
+	RUNTIME DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/Renderer
+	LIBRARY DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/Renderer )
+
+if ( WIN32 )
+	install( FILES $<TARGET_PDB_FILE:BtxRenderer>
+		DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/Renderer OPTIONAL )
+endif()
+
+install( FILES btx-renderer/plugins.json
+	DESTINATION ${BTX_BIN_DIRECTORY}/game/plugins/Renderer )
