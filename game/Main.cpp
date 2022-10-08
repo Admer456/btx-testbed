@@ -44,6 +44,24 @@ public:
 				Console->Print( adm::format( "  * %ix%i, %i Hz", videoMode.width, videoMode.height, videoMode.refreshRate ) );
 			}
 		}
+
+		Render::ViewDesc mainViewDesc;
+		mainViewDesc.viewMatrix = Mat4::Identity;
+		mainViewDesc.projectionMatrix = Mat4::Identity;
+		mainViewDesc.viewportSize = Vec2( -1.0f );
+
+		if ( Renderer )
+		{
+			mainView = Renderer->CreateView( mainViewDesc );
+			if ( nullptr == mainView )
+			{
+				Console->Warning( "Couldn't create a render view, there will be no video" );
+			}
+		}
+		else
+		{
+			Console->Warning( "Renderer doesn't exist, there will be no video" );
+		}
 	}
 
 	void Shutdown() override
@@ -68,18 +86,24 @@ public:
 	void Update() override
 	{
 		// Update game systems here
+		if ( Renderer )
+		{
+			Renderer->RenderView( mainView );
+		}
 	}
 
 	const char* GetPluginName() const override
 	{
 		return "BTX Test Game";
 	}
+
+private:
+	Render::IView* mainView{ nullptr };
 };
 
 static PluginRegistry Registry( EngineVersion );
 
 ADM_API PluginRegistry* GetPluginRegistry()
 {
-	Registry.Register<Application>();
-	return &Registry;
+	return &Registry.Register<Application>();
 }
