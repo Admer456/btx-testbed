@@ -19,7 +19,7 @@ public:
 
 		Audio = api.audio;
 		Input = api.input;
-		Renderer = api.renderer;
+		Renderer = api.renderFrontend;
 
 		CVar::RegisterAll();
 
