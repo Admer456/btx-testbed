@@ -5,7 +5,8 @@
 	"gameVersion": "v1.36",
 
 	"plugins": [
-		"plugins/GameLibrary"
+		"plugins/GameLibrary",
+		"plugins/Renderer"
 	],
 
 	"mounts": [
