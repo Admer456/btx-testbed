@@ -22,6 +22,6 @@ inline IPluginSystem* PluginSystem = nullptr;       // plugin libraries
 // The serverside should never use these
 inline IAudio* Audio = nullptr;           // sound sources, music, filters, reverb
 inline IInput* Input = nullptr;           // keyboard & mouse input
-inline IRenderSystem* Renderer = nullptr; // rendering of 3D models, 2D surfs, text etc.
+inline IRenderFrontend* Renderer = nullptr; // rendering of 3D models, 2D surfs, text etc.
 
 using CVar = CVarTemplate<Console>;
