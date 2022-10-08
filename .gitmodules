@@ -8,3 +8,8 @@
 	url = https://github.com/Admer456/btx-common.git
 	branch = master
 	shallow = 1
+[submodule "btx-renderer"]
+	path = btx-renderer
+	url = https://github.com/Admer456/btx-renderer.git
+	branch = master
+	shallow = 1
