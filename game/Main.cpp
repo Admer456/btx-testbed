@@ -50,7 +50,7 @@ public:
 		mainViewDesc.projectionMatrix = Mat4::Identity;
 		mainViewDesc.viewportSize = Vec2( -1.0f );
 
-		if ( Renderer )
+		if ( nullptr != Renderer )
 		{
 			mainView = Renderer->CreateView( mainViewDesc );
 			if ( nullptr == mainView )
@@ -68,6 +68,12 @@ public:
 	{
 		// Shut down in-game systems here
 		Console->Print( "Application::Shutdown: Shutting down..." );
+
+		if ( nullptr != mainView )
+		{
+			Renderer->DestroyView( mainView );
+			mainView = nullptr;	
+		}
 
 		CVar::UnregisterAll();
 
