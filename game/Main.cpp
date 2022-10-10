@@ -45,23 +45,7 @@ public:
 			}
 		}
 
-		Render::ViewDesc mainViewDesc;
-		mainViewDesc.viewMatrix = Mat4::Identity;
-		mainViewDesc.projectionMatrix = Mat4::Identity;
-		mainViewDesc.viewportSize = Vec2( -1.0f );
-
-		if ( nullptr != Renderer )
-		{
-			mainView = Renderer->CreateView( mainViewDesc );
-			if ( nullptr == mainView )
-			{
-				Console->Warning( "Couldn't create a render view, there will be no video" );
-			}
-		}
-		else
-		{
-			Console->Warning( "Renderer doesn't exist, there will be no video" );
-		}
+		SetupRenderingData();
 	}
 
 	void Shutdown() override
@@ -98,6 +82,63 @@ public:
 		}
 	}
 
+	inline static const Vector<Render::Data::Vertex> PentagonVertexData
+	{
+		Render::Data::VertexPos( { 0.0f, 0.5f, 0.0f } ),
+		Render::Data::VertexPos( { 0.5f, 0.2f, 0.0f } ),
+		Render::Data::VertexPos( { 0.3f, -0.4f, 0.0f } ),
+		Render::Data::VertexPos( { -0.3f, -0.4f, 0.0f } ),
+		Render::Data::VertexPos( { -0.5f, 0.2f, 0.0f } ),
+	};
+
+	inline static const Vector<uint32_t> PentagonVertexIndices
+	{
+		0, 1, 2,
+		0, 2, 3,
+		0, 3, 4
+	};
+
+	void SetupRenderingData()
+	{
+		// Models can be either programmatically generated like this,
+		// or in the future, loaded from a file
+		Render::ModelDesc modelDesc;
+		// Names are optional but good for debugging
+		modelDesc.modelData.name = "test_5gon_model";
+		// First you start off with a mesh
+		auto& mesh = modelDesc.modelData.meshes.emplace_back();
+		mesh.name = "Mesh001";
+		// Then you add a sur*face* to that mesh
+		auto& face = mesh.faces.emplace_back();
+		// And finally here, you add the actual geometry data and stuff
+		face.vertexData = PentagonVertexData;
+		face.vertexIndices = PentagonVertexIndices;
+		// And then send it to the model manager to actually create the model for you
+		showcaseModel = ModelManager->CreateModel( modelDesc );
+		
+		if ( nullptr != Renderer )
+		{
+			// A view is basically a camera. You can position it, rotate it,
+			// change the FOV and stuff like that
+			Render::ViewDesc mainViewDesc;
+			mainViewDesc.viewMatrix = Mat4::Identity;
+			mainViewDesc.projectionMatrix = Mat4::Identity;
+			mainViewDesc.viewportSize = Vec2( -1.0f );
+			mainView = Renderer->CreateView( mainViewDesc );
+
+			// Now that we have a model, we need an object that will display that model
+			// That is basically a render entity
+			Render::EntityDesc entityDesc;
+			entityDesc.model = showcaseModel;
+			entityDesc.transform = Mat4::Identity;
+			renderEntity = Renderer->CreateEntity( entityDesc );
+		}
+		else
+		{
+			Console->Warning( "Renderer doesn't exist, there will be no video" );
+		}
+	}
+
 	const char* GetPluginName() const override
 	{
 		return "BTX Test Game";
@@ -105,6 +146,8 @@ public:
 
 private:
 	Render::IView* mainView{ nullptr };
+	Render::IModel* showcaseModel{ nullptr };
+	Render::IEntity* renderEntity{ nullptr };
 };
 
 static PluginRegistry Registry( EngineVersion );
