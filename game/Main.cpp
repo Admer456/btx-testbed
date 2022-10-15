@@ -8,6 +8,8 @@ CVar testCvar( "test_cvar", "0", CVarFlags::ReadOnly, "Some test CVar" );
 class Application : public IApplication
 {
 public:
+	bool initialised{ false };
+
 	bool Init( const EngineAPI& api ) override
 	{
 		Core = api.core;
@@ -24,6 +26,7 @@ public:
 		CVar::RegisterAll();
 
 		Console->Print( "Application::Init: Game initialised" );
+		initialised = true;
 		return true;
 	}
 
@@ -50,6 +53,12 @@ public:
 
 	void Shutdown() override
 	{
+		// An engine failure occurred so we don't have its API yet
+		if ( !initialised )
+		{
+			return;
+		}
+
 		// Shut down in-game systems here
 		Console->Print( "Application::Shutdown: Shutting down..." );
 
@@ -82,27 +91,31 @@ public:
 		}
 	}
 
-	inline static const Vector<Render::Data::Vertex> PentagonVertexData
+	Assets::RenderData::VertexData PentagonVertexData()
 	{
-		Render::Data::VertexPos( { 0.0f, 0.5f, 0.0f } ),
-		Render::Data::VertexPos( { 0.5f, 0.2f, 0.0f } ),
-		Render::Data::VertexPos( { 0.3f, -0.4f, 0.0f } ),
-		Render::Data::VertexPos( { -0.3f, -0.4f, 0.0f } ),
-		Render::Data::VertexPos( { -0.5f, 0.2f, 0.0f } ),
-	};
+		using namespace Assets::RenderData;
 
-	inline static const Vector<uint32_t> PentagonVertexIndices
-	{
-		0, 1, 2,
-		0, 2, 3,
-		0, 3, 4
-	};
+		ModelBuilder mb;
+		mb.AddSegment( VertexAttributeType::Position, VertexAttributeDataType::Float );
+
+		mb.AddPosition( { 0.0f, 0.5f, 0.0f } );
+		mb.AddPosition( { 0.5f, 0.2f, 0.0f } );
+		mb.AddPosition( { 0.3f, -0.4f, 0.0f } );
+		mb.AddPosition( { -0.3f, -0.4f, 0.0f } );
+		mb.AddPosition( { -0.5f, 0.2f, 0.0f } );
+
+		mb.AddTriangle( 0, 1, 2 );
+		mb.AddTriangle( 0, 2, 3 );
+		mb.AddTriangle( 0, 3, 4 );
+
+		return mb.Build();
+	}
 
 	void SetupRenderingData()
 	{
 		// Models can be either programmatically generated like this,
 		// or in the future, loaded from a file
-		Render::ModelDesc modelDesc;
+		Assets::ModelDesc modelDesc;
 		// Names are optional but good for debugging
 		modelDesc.modelData.name = "test_5gon_model";
 		// First you start off with a mesh
@@ -111,8 +124,7 @@ public:
 		// Then you add a sur*face* to that mesh
 		auto& face = mesh.faces.emplace_back();
 		// And finally here, you add the actual geometry data and stuff
-		face.vertexData = PentagonVertexData;
-		face.vertexIndices = PentagonVertexIndices;
+		face.data = PentagonVertexData();
 		// And then send it to the model manager to actually create the model for you
 		showcaseModel = ModelManager->CreateModel( modelDesc );
 		
@@ -129,7 +141,7 @@ public:
 			// Now that we have a model, we need an object that will display that model
 			// That is basically a render entity
 			Render::EntityDesc entityDesc;
-			entityDesc.model = showcaseModel;
+			entityDesc.model = Renderer->CreateModel( showcaseModel );
 			entityDesc.transform = Mat4::Identity;
 			renderEntity = Renderer->CreateEntity( entityDesc );
 		}
@@ -146,7 +158,7 @@ public:
 
 private:
 	Render::IView* mainView{ nullptr };
-	Render::IModel* showcaseModel{ nullptr };
+	Assets::IModel* showcaseModel{ nullptr };
 	Render::IEntity* renderEntity{ nullptr };
 };
 
