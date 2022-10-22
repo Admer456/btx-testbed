@@ -113,6 +113,8 @@ public:
 
 	void SetupRenderingData()
 	{
+		Timer t;
+
 		// Models can be either programmatically generated like this,
 		// or in the future, loaded from a file
 		Assets::ModelDesc modelDesc;
@@ -135,7 +137,8 @@ public:
 			Render::ViewDesc mainViewDesc;
 			mainViewDesc.viewMatrix = Mat4::Identity;
 			mainViewDesc.projectionMatrix = Mat4::Identity;
-			mainViewDesc.viewportSize = Vec2( -1.0f );
+			mainViewDesc.clearColour = Vec4( 0.01f, 0.05f, 0.05f, 1.00f );
+			mainViewDesc.viewportSize = Vec2( -1.0f ); // Means "use main window viewport"
 			mainView = Renderer->CreateView( mainViewDesc );
 
 			// Now that we have a model, we need an object that will display that model
@@ -149,6 +152,8 @@ public:
 		{
 			Console->Warning( "Renderer doesn't exist, there will be no video" );
 		}
+
+		Console->DPrint( format( "Took %6.2f microseconds to load", t.GetElapsed( TimeUnits::Microseconds ) ), 1 );
 	}
 
 	const char* GetPluginName() const override
