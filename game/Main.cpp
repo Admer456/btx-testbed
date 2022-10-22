@@ -33,8 +33,8 @@ public:
 	// Initialise in-game systems here
 	void Start() override
 	{
-		adm::DateTime date = adm::DateTime::Now();
-		Console->Print( adm::format( "The date is: %i/%i/%i %i:%i:%i",
+		DateTime date = DateTime::Now();
+		Console->Print( format( "The date is: %i/%i/%i %i:%i:%i",
 			date.GetYear(), date.GetMonth(), date.GetDay(),
 			date.GetHour(), date.GetMinute(), date.GetSecond() ) );
 
@@ -44,7 +44,7 @@ public:
 		{
 			if ( videoMode.refreshRate >= 60 )
 			{
-				Console->Print( adm::format( "  * %ix%i, %i Hz", videoMode.width, videoMode.height, videoMode.refreshRate ) );
+				Console->Print( format( "  * %ix%i, %i Hz", videoMode.width, videoMode.height, videoMode.refreshRate ) );
 			}
 		}
 
