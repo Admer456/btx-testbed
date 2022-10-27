@@ -34,7 +34,7 @@ public:
 	void Start() override
 	{
 		DateTime date = DateTime::Now();
-		Console->Print( format( "The date is: %i/%i/%i %i:%i:%i",
+		Console->Print( format( "The date is: %i/%02i/%02i %02i:%02i:%02i",
 			date.GetYear(), date.GetMonth(), date.GetDay(),
 			date.GetHour(), date.GetMinute(), date.GetSecond() ) );
 
@@ -65,7 +65,7 @@ public:
 		if ( nullptr != mainView )
 		{
 			Renderer->DestroyView( mainView );
-			mainView = nullptr;	
+			mainView = nullptr;
 		}
 
 		CVar::UnregisterAll();
