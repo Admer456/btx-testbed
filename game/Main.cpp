@@ -87,7 +87,9 @@ public:
 		// Update game systems here
 		if ( Renderer )
 		{
+			Renderer->BeginFrame();
 			Renderer->RenderView( mainView );
+			Renderer->EndFrameAndPresent();
 		}
 	}
 
