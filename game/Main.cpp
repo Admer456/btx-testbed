@@ -89,7 +89,7 @@ public:
 		{
 			Renderer->BeginFrame();
 			Renderer->RenderView( mainView );
-			Renderer->EndFrameAndPresent();
+			Renderer->EndFrameAndPresent( mainView );
 		}
 	}
 
