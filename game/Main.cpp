@@ -99,12 +99,32 @@ public:
 
 		ModelBuilder mb;
 		mb.AddSegment( VertexAttributeType::Position, VertexAttributeDataType::Float );
+		mb.AddSegment( VertexAttributeType::Normal, VertexAttributeDataType::Int8 );
+		mb.AddSegment( VertexAttributeType::Uv1, VertexAttributeDataType::Float );
+		mb.AddSegment( VertexAttributeType::Colour1, VertexAttributeDataType::Int8 );
 
 		mb.AddPosition( { 0.0f, 0.5f, 0.0f } );
 		mb.AddPosition( { 0.5f, 0.2f, 0.0f } );
 		mb.AddPosition( { 0.3f, -0.4f, 0.0f } );
 		mb.AddPosition( { -0.3f, -0.4f, 0.0f } );
 		mb.AddPosition( { -0.5f, 0.2f, 0.0f } );
+
+		for ( int i = 0; i < 5; i++ )
+		{
+			mb.AddNormal( { 0.0f, 0.0f, 1.0f } );
+		}
+
+		mb.AddUv( { 0.0f, 0.5f } );
+		mb.AddUv( { 0.5f, 0.2f } );
+		mb.AddUv( { 0.3f, -0.4f } );
+		mb.AddUv( { -0.3f, -0.4f } );
+		mb.AddUv( { -0.5f, 0.2f } );
+
+		mb.AddColour( { 1.0f, 0.0f, 0.0f, 1.0f } );
+		mb.AddColour( { 0.0f, 1.0f, 0.0f, 1.0f } );
+		mb.AddColour( { 0.0f, 0.0f, 1.0f, 1.0f } );
+		mb.AddColour( { 1.0f, 0.0f, 1.0f, 1.0f } );
+		mb.AddColour( { 1.0f, 0.6f, 0.0f, 1.0f } );
 
 		mb.AddTriangle( 0, 1, 2 );
 		mb.AddTriangle( 0, 2, 3 );
